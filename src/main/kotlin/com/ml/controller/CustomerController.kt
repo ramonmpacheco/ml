@@ -12,8 +12,13 @@ class CustomerController {
     var customers = mutableSetOf<Customer>();
 
     @GetMapping
-    fun customer(): MutableSet<Customer> {
+    fun allCustomers(): MutableSet<Customer> {
         return customers
+    }
+
+    @GetMapping("/{id}")
+    fun customer(@PathVariable id: String): Customer {
+        return customers.first { c -> c.id == id }
     }
 
     @PostMapping
