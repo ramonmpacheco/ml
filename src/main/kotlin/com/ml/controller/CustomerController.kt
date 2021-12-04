@@ -6,6 +6,7 @@ import com.ml.model.Customer
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 import java.util.*
+import java.util.function.Predicate
 
 @RestController
 @RequestMapping("/customers")
@@ -36,5 +37,11 @@ class CustomerController {
             it.name = customer.name
             it.email = customer.email
         }
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    fun deleteCustomer(@PathVariable id: String) {
+        customers.removeIf { c -> c.id == id }
     }
 }
