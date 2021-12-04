@@ -1,6 +1,7 @@
 package com.ml.controller
 
 import com.ml.controller.request.PostCustomerRequest
+import com.ml.controller.request.PutCustomerRequest
 import com.ml.model.Customer
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
@@ -26,5 +27,14 @@ class CustomerController {
     fun createCustomer(@RequestBody customer: PostCustomerRequest) {
         customers.add(Customer(UUID.randomUUID().toString(), customer.name, customer.email))
         println(customer)
+    }
+
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    fun updateCustomer(@PathVariable id: String, @RequestBody customer: PutCustomerRequest) {
+        customers.first().let {
+            it.name = customer.name
+            it.email = customer.email
+        }
     }
 }
