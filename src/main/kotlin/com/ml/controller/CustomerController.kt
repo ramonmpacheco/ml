@@ -11,10 +11,11 @@ import java.util.function.Predicate
 @RestController
 @RequestMapping("/customers")
 class CustomerController {
-    var customers = mutableSetOf<Customer>();
+    val customers = mutableListOf<Customer>();
 
     @GetMapping
-    fun allCustomers(): MutableSet<Customer> {
+    fun allCustomers(@RequestParam name: String?): List<Customer> {
+        name?.let { return customers.filter { it.name.contains(name, true) } }
         return customers
     }
 
