@@ -3,6 +3,7 @@ package com.ml.controller
 import com.ml.controller.request.PostCustomerRequest
 import com.ml.controller.request.PutCustomerRequest
 import com.ml.model.Customer
+import com.ml.service.CustomerService
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 import java.util.*
@@ -10,39 +11,33 @@ import java.util.function.Predicate
 
 @RestController
 @RequestMapping("/customers")
-class CustomerController {
-    val customers = mutableListOf<Customer>();
+class CustomerController(val service: CustomerService) {
 
     @GetMapping
     fun allCustomers(@RequestParam name: String?): List<Customer> {
-        name?.let { return customers.filter { it.name.contains(name, true) } }
-        return customers
+        return service.allCustomers(name)
     }
 
     @GetMapping("/{id}")
     fun customer(@PathVariable id: String): Customer {
-        return customers.first { c -> c.id == id }
+        return service.customer(id)
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     fun createCustomer(@RequestBody customer: PostCustomerRequest) {
-        customers.add(Customer(UUID.randomUUID().toString(), customer.name, customer.email))
-        println(customer)
+        service.createCustomer(customer)
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun updateCustomer(@PathVariable id: String, @RequestBody customer: PutCustomerRequest) {
-        customers.first().let {
-            it.name = customer.name
-            it.email = customer.email
-        }
+        service.updateCustomer(id, customer)
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun deleteCustomer(@PathVariable id: String) {
-        customers.removeIf { c -> c.id == id }
+        service.deleteCustomer(id)
     }
 }
