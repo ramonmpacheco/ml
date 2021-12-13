@@ -1,6 +1,5 @@
 package com.ml.service
 
-import com.ml.controller.request.PostCustomerRequest
 import com.ml.controller.request.PutCustomerRequest
 import com.ml.model.Customer
 import org.springframework.stereotype.Service
@@ -19,13 +18,14 @@ class CustomerService {
         return customers.first { c -> c.id == id }
     }
 
-    fun createCustomer(customer: PostCustomerRequest) {
-        customers.add(Customer(UUID.randomUUID().toString(), customer.name, customer.email))
+    fun createCustomer(customer: Customer) {
+        customer.id = UUID.randomUUID().toString()
+        customers.add(customer)
         println(customer)
     }
 
-    fun updateCustomer(id: String, customer: PutCustomerRequest) {
-        customers.first().let {
+    fun updateCustomer(customer: Customer) {
+        customers.first { it.id == customer.id }.let {
             it.name = customer.name
             it.email = customer.email
         }
