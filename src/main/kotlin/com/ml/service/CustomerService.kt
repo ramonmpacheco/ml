@@ -1,9 +1,7 @@
 package com.ml.service
 
-import com.ml.controller.request.PutCustomerRequest
 import com.ml.model.Customer
 import org.springframework.stereotype.Service
-import java.util.*
 
 @Service
 class CustomerService {
@@ -14,12 +12,11 @@ class CustomerService {
         return customers
     }
 
-    fun customer(id: String): Customer {
+    fun customer(id: Int): Customer {
         return customers.first { c -> c.id == id }
     }
 
     fun createCustomer(customer: Customer) {
-        customer.id = UUID.randomUUID().toString()
         customers.add(customer)
         println(customer)
     }
@@ -31,7 +28,7 @@ class CustomerService {
         }
     }
 
-    fun deleteCustomer(id: String) {
+    fun deleteCustomer(id: Int) {
         customers.removeIf { c -> c.id == id }
     }
 }
