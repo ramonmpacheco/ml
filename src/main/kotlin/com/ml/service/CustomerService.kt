@@ -1,34 +1,37 @@
 package com.ml.service
 
 import com.ml.model.Customer
+import com.ml.repository.CustomerRepository
 import org.springframework.stereotype.Service
 
 @Service
-class CustomerService {
-    val customers = mutableListOf<Customer>();
+class CustomerService(val customerRepository: CustomerRepository) {
 
     fun allCustomers(name: String?): List<Customer> {
-        name?.let { return customers.filter { it.name.contains(name, true) } }
-        return customers
+        name?.let { return customerRepository.findByNameContainingIgnoreCase(name) }
+
+        return customerRepository.findAll().toList();
     }
 
     fun customer(id: Int): Customer {
-        return customers.first { c -> c.id == id }
+        return customerRepository.findById(id).orElseThrow { RuntimeException("Customer não encontrado") }
     }
 
     fun createCustomer(customer: Customer) {
-        customers.add(customer)
-        println(customer)
+        customerRepository.save(customer);
     }
 
     fun updateCustomer(customer: Customer) {
-        customers.first { it.id == customer.id }.let {
-            it.name = customer.name
-            it.email = customer.email
+        if (!customerRepository.existsById(customer.id!!)) {
+            throw RuntimeException("Customer não existe")
         }
+        customerRepository.save(customer);
     }
 
     fun deleteCustomer(id: Int) {
-        customers.removeIf { c -> c.id == id }
+        if (!customerRepository.existsById(id)) {
+            throw RuntimeException("Customer não existe")
+        }
+        customerRepository.deleteById(id);
     }
 }
