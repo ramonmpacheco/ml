@@ -10,28 +10,28 @@ class CustomerService(val customerRepository: CustomerRepository) {
     fun allCustomers(name: String?): List<Customer> {
         name?.let { return customerRepository.findByNameContainingIgnoreCase(name) }
 
-        return customerRepository.findAll().toList();
+        return customerRepository.findAll().toList()
     }
 
-    fun customer(id: Int): Customer {
+    fun getCustomerById(id: Int): Customer {
         return customerRepository.findById(id).orElseThrow { RuntimeException("Customer não encontrado") }
     }
 
     fun createCustomer(customer: Customer) {
-        customerRepository.save(customer);
+        customerRepository.save(customer)
     }
 
     fun updateCustomer(customer: Customer) {
         if (!customerRepository.existsById(customer.id!!)) {
             throw RuntimeException("Customer não existe")
         }
-        customerRepository.save(customer);
+        customerRepository.save(customer)
     }
 
     fun deleteCustomer(id: Int) {
         if (!customerRepository.existsById(id)) {
             throw RuntimeException("Customer não existe")
         }
-        customerRepository.deleteById(id);
+        customerRepository.deleteById(id)
     }
 }

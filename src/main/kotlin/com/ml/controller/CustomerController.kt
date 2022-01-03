@@ -19,7 +19,7 @@ class CustomerController(val service: CustomerService) {
 
     @GetMapping("/{id}")
     fun customer(@PathVariable id: Int): Customer {
-        return service.customer(id)
+        return service.getCustomerById(id)
     }
 
     @PostMapping
