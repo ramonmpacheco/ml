@@ -2,6 +2,7 @@ package com.ml.service
 
 import com.ml.enums.BookStatus
 import com.ml.model.Book
+import com.ml.model.Customer
 import com.ml.repository.BookRepository
 import org.springframework.stereotype.Service
 import java.lang.RuntimeException
@@ -34,6 +35,14 @@ class BookService(
 
     fun update(book: Book) {
         bookRepository.save(book)
+    }
+
+    fun deleteByCustomer(customer: Customer) {
+        val books = bookRepository.findByCustomer(customer)
+        for (book in books) {
+            book.status = BookStatus.DELETADO
+        }
+        bookRepository.saveAll(books)
     }
 
 }

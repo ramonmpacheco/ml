@@ -5,7 +5,7 @@ import com.ml.repository.CustomerRepository
 import org.springframework.stereotype.Service
 
 @Service
-class CustomerService(val customerRepository: CustomerRepository) {
+class CustomerService(val customerRepository: CustomerRepository, val bookService: BookService) {
 
     fun allCustomers(name: String?): List<Customer> {
         name?.let { return customerRepository.findByNameContainingIgnoreCase(name) }
@@ -13,7 +13,7 @@ class CustomerService(val customerRepository: CustomerRepository) {
         return customerRepository.findAll().toList()
     }
 
-    fun getCustomerById(id: Int): Customer {
+    fun findById(id: Int): Customer {
         return customerRepository.findById(id).orElseThrow { RuntimeException("Customer não encontrado") }
     }
 
@@ -29,9 +29,8 @@ class CustomerService(val customerRepository: CustomerRepository) {
     }
 
     fun deleteCustomer(id: Int) {
-        if (!customerRepository.existsById(id)) {
-            throw RuntimeException("Customer não existe")
-        }
+        val customer = findById(id)
+        bookService.deleteByCustomer(customer)
         customerRepository.deleteById(id)
     }
 }
