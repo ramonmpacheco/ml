@@ -5,15 +5,16 @@ import com.ml.controller.request.PostCustomerRequest
 import com.ml.controller.request.PutBookRequest
 import com.ml.controller.request.PutCustomerRequest
 import com.ml.enums.BookStatus
+import com.ml.enums.CustomerStatus
 import com.ml.model.Book
 import com.ml.model.Customer
 
 fun PostCustomerRequest.toCustomer(): Customer {
-    return Customer(name = this.name, email = this.email)
+    return Customer(name = this.name, email = this.email, status = CustomerStatus.ATIVO)
 }
 
-fun PutCustomerRequest.toCustomer(id: Int): Customer {
-    return Customer(id = id, name = this.name, email = this.email)
+fun PutCustomerRequest.toCustomer(previousCustomer: Customer): Customer {
+    return Customer(id = previousCustomer.id, name = this.name, email = this.email, status = previousCustomer.status)
 }
 
 fun PostBookRequest.toBookModel(customer: Customer): Book {

@@ -1,5 +1,6 @@
 package com.ml.service
 
+import com.ml.enums.CustomerStatus
 import com.ml.model.Customer
 import com.ml.repository.CustomerRepository
 import org.springframework.stereotype.Service
@@ -31,6 +32,8 @@ class CustomerService(val customerRepository: CustomerRepository, val bookServic
     fun deleteCustomer(id: Int) {
         val customer = findById(id)
         bookService.deleteByCustomer(customer)
-        customerRepository.deleteById(id)
+
+        customer.status = CustomerStatus.INATIVO
+        customerRepository.save(customer)
     }
 }
