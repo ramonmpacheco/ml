@@ -2,8 +2,9 @@ package com.ml.controller
 
 import com.ml.controller.request.PostCustomerRequest
 import com.ml.controller.request.PutCustomerRequest
+import com.ml.controller.response.CustomerResponse
 import com.ml.extension.toCustomer
-import com.ml.model.Customer
+import com.ml.extension.toResponse
 import com.ml.service.CustomerService
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
@@ -13,13 +14,13 @@ import org.springframework.web.bind.annotation.*
 class CustomerController(val service: CustomerService) {
 
     @GetMapping
-    fun allCustomers(@RequestParam name: String?): List<Customer> {
-        return service.allCustomers(name)
+    fun allCustomers(@RequestParam name: String?): List<CustomerResponse> {
+        return service.allCustomers(name).map { it.toResponse() }
     }
 
     @GetMapping("/{id}")
-    fun customer(@PathVariable id: Int): Customer {
-        return service.findById(id)
+    fun customer(@PathVariable id: Int): CustomerResponse {
+        return service.findById(id).toResponse()
     }
 
     @PostMapping

@@ -2,8 +2,10 @@ package com.ml.controller
 
 import com.ml.controller.request.PostBookRequest
 import com.ml.controller.request.PutBookRequest
+import com.ml.controller.response.BookResponse
 import com.ml.extension.toBookModel
-import com.ml.model.Book
+import com.ml.extension.toResponse
+
 import com.ml.service.BookService
 import com.ml.service.CustomerService
 import org.springframework.http.HttpStatus
@@ -22,15 +24,15 @@ class BookController(
     }
 
     @GetMapping
-    fun findAll(): List<Book> {
-        return bookService.findAll()
+    fun findAll(): List<BookResponse> {
+        return bookService.findAll().map { it.toResponse() }
     }
 
     @GetMapping("/active")
-    fun findAllActive(): List<Book> = bookService.findAllActive()
+    fun findAllActive(): List<BookResponse> = bookService.findAllActive().map { it.toResponse() }
 
     @GetMapping("/{id}")
-    fun findById(@PathVariable id: Int): Book = bookService.findById(id)
+    fun findById(@PathVariable id: Int): BookResponse = bookService.findById(id).toResponse()
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
