@@ -4,6 +4,8 @@ import com.ml.enums.BookStatus
 import com.ml.model.Book
 import com.ml.model.Customer
 import com.ml.repository.BookRepository
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import java.lang.RuntimeException
 
@@ -15,8 +17,8 @@ class BookService(
         bookRepository.save(book)
     }
 
-    fun findAll(): List<Book> {
-        return bookRepository.findAll().toList()
+    fun findAll(pageable: Pageable): Page<Book> {
+        return bookRepository.findAll(pageable)
     }
 
     fun findAllActive(): List<Book> {

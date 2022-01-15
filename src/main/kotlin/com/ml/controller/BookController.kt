@@ -8,6 +8,9 @@ import com.ml.extension.toResponse
 
 import com.ml.service.BookService
 import com.ml.service.CustomerService
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
+import org.springframework.data.web.PageableDefault
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 
@@ -24,8 +27,8 @@ class BookController(
     }
 
     @GetMapping
-    fun findAll(): List<BookResponse> {
-        return bookService.findAll().map { it.toResponse() }
+    fun findAll(@PageableDefault(page = 0, size = 10) pageable: Pageable): Page<BookResponse> {
+        return bookService.findAll(pageable).map { it.toResponse() }
     }
 
     @GetMapping("/active")
