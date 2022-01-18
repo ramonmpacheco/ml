@@ -6,4 +6,5 @@ spring:
     url: jdbc:mysql://localhost:3306/ml?createDatabaseIfNotExist=true
     username: root
     password: root
-
+  jackson:
+    default-property-inclusion: non_null

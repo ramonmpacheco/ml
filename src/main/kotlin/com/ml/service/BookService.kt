@@ -1,13 +1,13 @@
 package com.ml.service
 
 import com.ml.enums.BookStatus
+import com.ml.exceptions.NotFoundException
 import com.ml.model.Book
 import com.ml.model.Customer
 import com.ml.repository.BookRepository
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
-import java.lang.RuntimeException
 
 @Service
 class BookService(
@@ -26,7 +26,7 @@ class BookService(
     }
 
     fun findById(id: Int): Book {
-        return bookRepository.findById(id).orElseThrow { RuntimeException("Livro não encontrado") }
+        return bookRepository.findById(id).orElseThrow { NotFoundException("Livro não [$id] encontrado", "ML-0001") }
     }
 
     fun delete(id: Int) {
