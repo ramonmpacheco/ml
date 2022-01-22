@@ -3,7 +3,8 @@ package com.ml.model
 import com.ml.enums.BookStatus
 import com.ml.enums.BookStatus.CANCELADO
 import com.ml.enums.BookStatus.DELETADO
-import java.lang.RuntimeException
+import com.ml.enums.Errors.ML003
+import com.ml.exceptions.BadRequestException
 import java.math.BigDecimal
 import javax.persistence.*
 
@@ -25,7 +26,7 @@ data class Book(
     var status: BookStatus? = null
         set(value) {
             if (field == CANCELADO || field == DELETADO) {
-                throw RuntimeException("Status $field cannot be changed to $value")
+                throw BadRequestException(ML003.message.format(field, value), ML003.code)
             }
 
             field = value

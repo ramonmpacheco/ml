@@ -1,6 +1,7 @@
 package com.ml.service
 
 import com.ml.enums.BookStatus
+import com.ml.enums.Errors
 import com.ml.exceptions.NotFoundException
 import com.ml.model.Book
 import com.ml.model.Customer
@@ -26,7 +27,9 @@ class BookService(
     }
 
     fun findById(id: Int): Book {
-        return bookRepository.findById(id).orElseThrow { NotFoundException("Livro não [$id] encontrado", "ML-0001") }
+        return bookRepository.findById(id).orElseThrow {
+            NotFoundException(Errors.ML001.message.format(id), Errors.ML001.code)
+        }
     }
 
     fun delete(id: Int) {
