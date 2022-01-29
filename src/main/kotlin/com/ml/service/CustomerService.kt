@@ -36,4 +36,8 @@ class CustomerService(val customerRepository: CustomerRepository, val bookServic
         customer.status = CustomerStatus.INATIVO
         customerRepository.save(customer)
     }
+
+    fun emailAvailable(value: String): Boolean {
+        return !customerRepository.existsByEmail(value)
+    }
 }
