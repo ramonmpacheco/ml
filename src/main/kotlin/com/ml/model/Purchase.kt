@@ -29,5 +29,5 @@ data class Purchase(
     val price: BigDecimal,
 
     @Column(name = "created_at")
-    val createdAt: LocalDate
+    val createdAt: LocalDate = LocalDate.now()
 )
