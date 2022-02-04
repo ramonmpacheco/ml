@@ -26,6 +26,9 @@ dependencies {
     implementation("org.flywaydb:flyway-core:8.2.3")
     implementation("org.flywaydb:flyway-mysql:8.2.3")
     implementation("org.springframework.boot:spring-boot-starter-validation")
+    implementation("io.springfox:springfox-swagger-ui:3.0.0")
+    implementation("io.springfox:springfox-swagger2:3.0.0")
+    implementation("io.springfox:springfox-boot-starter:3.0.0")
 
     runtimeOnly("mysql:mysql-connector-java")
 
