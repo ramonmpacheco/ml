@@ -2,6 +2,7 @@ package com.ml.config
 
 import com.ml.repository.CustomerRepository
 import com.ml.security.AuthenticationFilter
+import com.ml.security.AuthorizationFilter
 import com.ml.security.JwtUtil
 import com.ml.service.UserDetailsCustomService
 import org.springframework.context.annotation.Bean
@@ -37,6 +38,7 @@ class SecurityConfig(
             .anyRequest().authenticated()
 
         http.addFilter(AuthenticationFilter(authenticationManager(), customerRepository, jwtUtil))
+        http.addFilter(AuthorizationFilter(authenticationManager(), userDetailsCustomService, jwtUtil))
 
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
     }
