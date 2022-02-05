@@ -5,6 +5,7 @@ import com.ml.controller.request.PutCustomerRequest
 import com.ml.controller.response.CustomerResponse
 import com.ml.extension.toCustomer
 import com.ml.extension.toResponse
+import com.ml.security.OwnResource
 import com.ml.service.CustomerService
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
@@ -20,6 +21,7 @@ class CustomerController(val service: CustomerService) {
     }
 
     @GetMapping("/{id}")
+    @OwnResource
     fun customer(@PathVariable id: Int): CustomerResponse {
         return service.findById(id).toResponse()
     }
