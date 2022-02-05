@@ -1,5 +1,6 @@
 package com.ml.config
 
+import com.ml.enums.Roles
 import com.ml.repository.CustomerRepository
 import com.ml.security.AuthenticationFilter
 import com.ml.security.AuthorizationFilter
@@ -26,6 +27,10 @@ class SecurityConfig(
         "/customers"
     )
 
+    private val ADMIN_MATCHERS = arrayOf(
+        "/admins/**"
+    )
+
     override fun configure(auth: AuthenticationManagerBuilder) {
         auth.userDetailsService(userDetailsCustomService).passwordEncoder(bCryptPasswordEncoder())
     }
@@ -35,6 +40,7 @@ class SecurityConfig(
 
         http.authorizeRequests()
             .antMatchers(HttpMethod.POST, *PUBLIC_POST_MATCHERS).permitAll()
+            .antMatchers(*ADMIN_MATCHERS).hasAnyAuthority(Roles.ADMIN.description)
             .anyRequest().authenticated()
 
         http.addFilter(AuthenticationFilter(authenticationManager(), customerRepository, jwtUtil))
