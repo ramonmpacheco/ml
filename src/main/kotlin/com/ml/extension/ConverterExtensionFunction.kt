@@ -12,11 +12,22 @@ import com.ml.model.Book
 import com.ml.model.Customer
 
 fun PostCustomerRequest.toCustomer(): Customer {
-    return Customer(name = this.name, email = this.email, status = CustomerStatus.ATIVO)
+    return Customer(
+        name = this.name,
+        email = this.email,
+        status = CustomerStatus.ATIVO,
+        password = this.password
+    )
 }
 
 fun PutCustomerRequest.toCustomer(previousCustomer: Customer): Customer {
-    return Customer(id = previousCustomer.id, name = this.name, email = this.email, status = previousCustomer.status)
+    return Customer(
+        id = previousCustomer.id,
+        name = this.name,
+        email = this.email,
+        status = previousCustomer.status,
+        password = previousCustomer.password
+    )
 }
 
 fun Customer.toResponse(): CustomerResponse {
