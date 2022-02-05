@@ -4,10 +4,15 @@ import com.ml.enums.CustomerStatus
 import com.ml.enums.Profile
 import com.ml.model.Customer
 import com.ml.repository.CustomerRepository
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
 
 @Service
-class CustomerService(val customerRepository: CustomerRepository, val bookService: BookService) {
+class CustomerService(
+    private val customerRepository: CustomerRepository,
+    private val bookService: BookService,
+    private val bCrypt: BCryptPasswordEncoder
+) {
 
     fun allCustomers(name: String?): List<Customer> {
         name?.let { return customerRepository.findByNameContainingIgnoreCase(name) }
@@ -21,7 +26,8 @@ class CustomerService(val customerRepository: CustomerRepository, val bookServic
 
     fun createCustomer(customer: Customer) {
         val copy = customer.copy(
-            roles = setOf(Profile.CUSTOMER)
+            roles = setOf(Profile.CUSTOMER),
+            password = bCrypt.encode(customer.password)
         )
         customerRepository.save(copy)
     }
