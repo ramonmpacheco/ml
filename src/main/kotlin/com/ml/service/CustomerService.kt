@@ -1,6 +1,7 @@
 package com.ml.service
 
 import com.ml.enums.CustomerStatus
+import com.ml.enums.Profile
 import com.ml.model.Customer
 import com.ml.repository.CustomerRepository
 import org.springframework.stereotype.Service
@@ -19,7 +20,10 @@ class CustomerService(val customerRepository: CustomerRepository, val bookServic
     }
 
     fun createCustomer(customer: Customer) {
-        customerRepository.save(customer)
+        val copy = customer.copy(
+            roles = setOf(Profile.CUSTOMER)
+        )
+        customerRepository.save(copy)
     }
 
     fun updateCustomer(customer: Customer) {
