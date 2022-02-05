@@ -2,6 +2,7 @@ package com.ml.config
 
 import com.ml.repository.CustomerRepository
 import com.ml.security.AuthenticationFilter
+import com.ml.security.JwtUtil
 import com.ml.service.UserDetailsCustomService
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -17,7 +18,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 @EnableWebSecurity
 class SecurityConfig(
     private val customerRepository: CustomerRepository,
-    private val userDetailsCustomService: UserDetailsCustomService
+    private val userDetailsCustomService: UserDetailsCustomService,
+    private val jwtUtil: JwtUtil
 ) : WebSecurityConfigurerAdapter() {
     private val PUBLIC_POST_MATCHERS = arrayOf(
         "/customers"
@@ -34,7 +36,7 @@ class SecurityConfig(
             .antMatchers(HttpMethod.POST, *PUBLIC_POST_MATCHERS).permitAll()
             .anyRequest().authenticated()
 
-        http.addFilter(AuthenticationFilter(authenticationManager(), customerRepository))
+        http.addFilter(AuthenticationFilter(authenticationManager(), customerRepository, jwtUtil))
 
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
     }
