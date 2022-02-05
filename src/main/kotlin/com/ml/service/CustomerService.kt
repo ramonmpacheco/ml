@@ -1,7 +1,7 @@
 package com.ml.service
 
 import com.ml.enums.CustomerStatus
-import com.ml.enums.Profile
+import com.ml.enums.Roles
 import com.ml.model.Customer
 import com.ml.repository.CustomerRepository
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
@@ -26,7 +26,7 @@ class CustomerService(
 
     fun createCustomer(customer: Customer) {
         val copy = customer.copy(
-            roles = setOf(Profile.CUSTOMER),
+            roles = setOf(Roles.CUSTOMER),
             password = bCrypt.encode(customer.password)
         )
         customerRepository.save(copy)

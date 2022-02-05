@@ -1,7 +1,7 @@
 package com.ml.model
 
 import com.ml.enums.CustomerStatus
-import com.ml.enums.Profile
+import com.ml.enums.Roles
 import javax.persistence.*
 
 @Entity(name = "customer")
@@ -20,8 +20,8 @@ data class Customer(
     val password: String,
 
     @CollectionTable(name = "customer_roles", joinColumns = [JoinColumn(name = "customer_id")])
-    @ElementCollection(targetClass = Profile::class, fetch = FetchType.EAGER)
+    @ElementCollection(targetClass = Roles::class, fetch = FetchType.EAGER)
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
-    var roles: Set<Profile> = setOf()
+    var roles: Set<Roles> = setOf()
 )
