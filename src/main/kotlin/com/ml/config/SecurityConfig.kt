@@ -36,7 +36,7 @@ class SecurityConfig(
     )
 
     private val ADMIN_MATCHERS = arrayOf(
-        "/admins/**"
+        "/admin/**"
     )
 
     override fun configure(auth: AuthenticationManagerBuilder) {
@@ -74,7 +74,7 @@ class SecurityConfig(
         val source = UrlBasedCorsConfigurationSource()
         val config = CorsConfiguration()
         config.allowCredentials = true
-        config.addAllowedOrigin("*")
+        config.addAllowedOriginPattern("*")
         config.addAllowedHeader("*")
         config.addAllowedMethod("*")
         source.registerCorsConfiguration("/**", config)

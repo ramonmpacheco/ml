@@ -3,12 +3,12 @@ package com.ml.controller
 import com.ml.controller.request.PostBookRequest
 import com.ml.controller.request.PutBookRequest
 import com.ml.controller.response.BookResponse
+import com.ml.controller.response.PageResponse
 import com.ml.extension.toBookModel
+import com.ml.extension.toPageResponse
 import com.ml.extension.toResponse
-
 import com.ml.service.BookService
 import com.ml.service.CustomerService
-import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.web.PageableDefault
 import org.springframework.http.HttpStatus
@@ -27,8 +27,8 @@ class BookController(
     }
 
     @GetMapping
-    fun findAll(@PageableDefault(page = 0, size = 10) pageable: Pageable): Page<BookResponse> {
-        return bookService.findAll(pageable).map { it.toResponse() }
+    fun findAll(@PageableDefault(page = 0, size = 10) pageable: Pageable): PageResponse<BookResponse> {
+        return bookService.findAll(pageable).map { it.toResponse() }.toPageResponse()
     }
 
     @GetMapping("/active")

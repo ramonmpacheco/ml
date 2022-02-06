@@ -6,10 +6,12 @@ import com.ml.controller.request.PutBookRequest
 import com.ml.controller.request.PutCustomerRequest
 import com.ml.controller.response.BookResponse
 import com.ml.controller.response.CustomerResponse
+import com.ml.controller.response.PageResponse
 import com.ml.enums.BookStatus
 import com.ml.enums.CustomerStatus
 import com.ml.model.Book
 import com.ml.model.Customer
+import org.springframework.data.domain.Page
 
 fun PostCustomerRequest.toCustomer(): Customer {
     return Customer(
@@ -66,4 +68,8 @@ fun Book.toResponse(): BookResponse {
         customer = this.customer,
         status = this.status
     )
+}
+
+fun <E> Page<E>.toPageResponse(): PageResponse<E> {
+    return PageResponse(this.content, this.number, this.totalElements, this.totalPages)
 }
