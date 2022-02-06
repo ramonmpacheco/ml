@@ -4,6 +4,7 @@ import com.ml.enums.Roles
 import com.ml.repository.CustomerRepository
 import com.ml.security.AuthenticationFilter
 import com.ml.security.AuthorizationFilter
+import com.ml.security.CustomAuthenticationEntryPoint
 import com.ml.security.JwtUtil
 import com.ml.service.UserDetailsCustomService
 import org.springframework.context.annotation.Bean
@@ -27,7 +28,8 @@ import org.springframework.web.filter.CorsFilter
 class SecurityConfig(
     private val customerRepository: CustomerRepository,
     private val userDetailsCustomService: UserDetailsCustomService,
-    private val jwtUtil: JwtUtil
+    private val jwtUtil: JwtUtil,
+    private val customAuthenticationEntryPoint: CustomAuthenticationEntryPoint
 ) : WebSecurityConfigurerAdapter() {
     private val PUBLIC_POST_MATCHERS = arrayOf(
         "/customers"
@@ -53,6 +55,7 @@ class SecurityConfig(
         http.addFilter(AuthorizationFilter(authenticationManager(), userDetailsCustomService, jwtUtil))
 
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        http.exceptionHandling().authenticationEntryPoint(customAuthenticationEntryPoint)
     }
 
     override fun configure(web: WebSecurity) {
