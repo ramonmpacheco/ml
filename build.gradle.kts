@@ -34,6 +34,7 @@ dependencies {
 
     runtimeOnly("mysql:mysql-connector-java")
 
+    testImplementation("io.mockk:mockk:1.12.2")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
