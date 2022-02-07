@@ -1,7 +1,9 @@
 package com.ml.service
 
 import com.ml.enums.CustomerStatus
+import com.ml.enums.Errors
 import com.ml.enums.Roles
+import com.ml.exceptions.NotFoundException
 import com.ml.model.Customer
 import com.ml.repository.CustomerRepository
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
@@ -21,7 +23,7 @@ class CustomerService(
     }
 
     fun findById(id: Int): Customer {
-        return customerRepository.findById(id).orElseThrow { RuntimeException("Customer não encontrado") }
+        return customerRepository.findById(id).orElseThrow { NotFoundException(Errors.ML002.message.format(id), Errors.ML002.code) }
     }
 
     fun createCustomer(customer: Customer) {
